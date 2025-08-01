@@ -1,0 +1,38 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build_and_release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get version from manifest.json
+        id: get_version
+        run: |
+          VERSION=$(jq -r '.version' manifest.json)
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Package project files
+        run: zip -r regex-tab-closer-addon.zip . -x .git\* README.md screenshot1.png
+
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.get_version.outputs.version }}
+          name: Automated Release v${{ steps.get_version.outputs.version }}
+          body: |
+            # Release v${{ steps.get_version.outputs.version }}
+            This is an automated release triggered by a push to the master branch.
+          draft: false
+          prerelease: false
+          files: regex-tab-closer-addon.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
