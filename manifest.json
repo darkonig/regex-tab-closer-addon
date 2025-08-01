@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "Regex Tab Closer",
+  "version": "1.0",
+  "description": "Instantly close multiple browser tabs using the power of regular expressions. Match by URL or title to clean up your workspace in seconds.",
+  "icons": {
+    "48": "icons/icon-48.png"
+  },
+  "browser_action": {
+    "default_icon": "icons/icon-48.png",
+    "default_title": "Regex Tab Closer",
+    "default_popup": "popup.html"
+  },
+  "permissions": ["tabs", "storage"]
+}

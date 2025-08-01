@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      font-family: sans-serif;
+      width: 350px;
+      padding: 10px;
+      background-color: #f5f5f5;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #333;
+    }
+    input[type="text"] {
+      width: calc(100% - 20px);
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .button-group {
+        display: flex; 
+        gap: 10px; 
+        margin-bottom: 10px;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.2s;
+      flex-grow: 1;
+      box-sizing: border-box;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #closeTabsButton {
+        background-color: #dc3545; 
+    }
+    #closeTabsButton:hover {
+        background-color: #c82333;
+    }
+    .button-disabled {
+        background-color: #6c757d !important;
+        cursor: not-allowed !important;
+    }
+    #message {
+      margin-top: 10px;
+      color: #555;
+      font-size: 0.9em;
+    }
+    .warning {
+        color: orange;
+        font-weight: bold;
+    }
+    .info {
+        color: gray;
+        font-style: italic;
+        font-size: 0.8em;
+        margin-top: 5px;
+        margin-bottom: 15px;
+    }
+    #tabListContainer {
+        margin-top: 15px;
+        padding-top: 10px;
+        border-top: 1px solid #eee;
+        display: none;
+    }
+    #tabCount {
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #333;
+    }
+    #matchingTabsList {
+        list-style-type: none;
+        padding: 0;
+        max-height: 120px;
+        overflow-y: auto;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        background-color: #fff;
+    }
+    #matchingTabsList li {
+        padding: 8px 10px;
+        border-bottom: 1px solid #eee;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 0.9em;
+        color: #444;
+    }
+    #matchingTabsList li:last-child {
+        border-bottom: none;
+    }
+    #matchingTabsList li:hover {
+        background-color: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+  <label for="urlPattern">URL Pattern to Close:</label>
+  <input type="text" id="urlPattern" placeholder="e.g., *://*.example.com/*">
+  <div class="info">
+      Use `*` as a wildcard. Pinned tabs are ignored by default.<br/>
+      <b>Tip</b>: Use `/*` at the end of your search to match multiple URL paths.
+  </div>
+  
+  <div class="button-group">
+    <button id="searchTabsButton">Search Tabs</button>
+    <button id="closeTabsButton" class="button-disabled" disabled>Close Matching Tabs (0)</button>
+  </div>
+
+  <div id="tabListContainer">
+    <div id="tabCount"></div>
+    <ul id="matchingTabsList"></ul>
+  </div>
+
+  <div id="message"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
