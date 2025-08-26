@@ -11,5 +11,11 @@
     "default_title": "Regex Tab Closer",
     "default_popup": "popup.html"
   },
-  "permissions": ["tabs", "storage"]
+  "permissions": ["tabs", "storage"],
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": false
+  }
 }

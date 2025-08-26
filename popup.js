@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const urlPatternInput = document.getElementById("urlPattern");
   const searchTabsButton = document.getElementById("searchTabsButton");
   const closeTabsButton = document.getElementById("closeTabsButton");
+  const moveTabsButton = document.getElementById("moveTabsButton");
   const messageDiv = document.getElementById("message");
   const tabListContainer = document.getElementById("tabListContainer");
   const tabCountDiv = document.getElementById("tabCount");
@@ -52,6 +53,32 @@ document.addEventListener("DOMContentLoaded", () => {
         messageDiv.textContent = `Error: ${error.message}`;
         messageDiv.style.color = "red";
       }
+    } else {
+      messageDiv.textContent = "Operation cancelled.";
+      messageDiv.style.color = "orange";
+    }
+  });
+
+  moveTabsButton.addEventListener("click", async () => {
+    if (currentMatchingTabIds.length === 0) {
+      messageDiv.textContent = "No tabs to move.";
+      messageDiv.style.color = "red";
+      return;
+    }
+
+    const confirmation = confirm(
+      `Are you sure you want to move ${currentMatchingTabIds.length} matching tabs to a new window?`,
+    );
+    if (confirmation) {
+      messageDiv.textContent = "Moving tabs...";
+      messageDiv.style.color = "#555";
+      browser.runtime.sendMessage({
+        action: "moveTabs",
+        tabIds: currentMatchingTabIds,
+      });
+      messageDiv.textContent =
+        `Moved ${currentMatchingTabIds.length} tabs to a new window.`;
+      messageDiv.style.color = "green";
     } else {
       messageDiv.textContent = "Operation cancelled.";
       messageDiv.style.color = "orange";
@@ -155,10 +182,16 @@ document.addEventListener("DOMContentLoaded", () => {
       closeTabsButton.textContent = `Close Matching Tabs (${count})`;
       closeTabsButton.classList.remove("button-disabled");
       closeTabsButton.disabled = false;
+      moveTabsButton.textContent = `Move to New Window (${count})`;
+      moveTabsButton.classList.remove("button-disabled");
+      moveTabsButton.disabled = false;
     } else {
       closeTabsButton.textContent = "Close Matching Tabs (0)";
       closeTabsButton.classList.add("button-disabled");
       closeTabsButton.disabled = true;
+      moveTabsButton.textContent = "Move to New Window (0)";
+      moveTabsButton.classList.add("button-disabled");
+      moveTabsButton.disabled = true;
     }
   }
 
