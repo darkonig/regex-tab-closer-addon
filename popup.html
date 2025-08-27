@@ -5,7 +5,7 @@
   <style>
     body {
       font-family: sans-serif;
-      width: 400px; /* Wider to fit all buttons */
+      width: 400px;
       padding: 10px;
       background-color: #f5f5f5;
     }
@@ -15,16 +15,35 @@
       font-weight: bold;
       color: #333;
     }
-    input[type="text"] {
-      width: calc(100% - 20px);
+    .input-group {
+        display: flex;
+        gap: 5px;
+        margin-bottom: 10px;
+        align-items: center;
+    }
+    .input-group input[type="text"] {
+      flex-grow: 1;
       padding: 8px;
-      margin-bottom: 10px;
       border: 1px solid #ccc;
       border-radius: 4px;
     }
+    .input-group button {
+      flex-shrink: 0;
+      background-color: #28a745; /* Green color for "Add" button */
+      color: white;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.2s;
+    }
+    .input-group button:hover {
+        background-color: #218838;
+    }
     .button-group {
         display: flex;
-        flex-wrap: wrap; /* Allow buttons to wrap to a new line if needed */
+        flex-wrap: wrap;
         gap: 10px;
         margin-bottom: 10px;
     }
@@ -50,7 +69,7 @@
         background-color: #c82333;
     }
     #moveTabsButton {
-        background-color: #17a2b8; /* A cyan/teal color for "move" */
+        background-color: #17a2b8;
     }
     #moveTabsButton:hover {
         background-color: #138496;
@@ -114,14 +133,25 @@
 </head>
 <body>
   <label for="urlPattern">URL Pattern to Close:</label>
-  <input type="text" id="urlPattern" placeholder="e.g., *://*.example.com/*">
+  <div class="input-group">
+    <input type="text" id="urlPattern" placeholder="e.g., *://*.example.com/*">
+    <button id="autoPatternButton" title="Auto-fill with current site pattern">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M5.526 1.488A2.5 2.5 0 0 1 7.152 1v1.666L8 3a.5.5 0 0 1 .5.5v2L13 11.5a.5.5 0 0 1-.5.5H11l-1-2h2L10 13a.5.5 0 0 1-.5.5H8.723L7 16V8h2.5a.5.5 0 0 1 .374.832L8.5 12.5H10L5.526 1.488zM4 14l-.5-1h1.5l.5 1H4zM6 14l-.5-1h1.5l.5 1H6z"/>
+        </svg>
+      </button>
+      <button id="searchTabsButton" title="Search Tabs">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+      </svg>
+    </button>
+  </div>
   <div class="info">
       Use `*` as a wildcard. Pinned tabs are ignored by default.<br/>
       <b>Tip</b>: Use `/*` at the end of your search to match multiple URL paths.
   </div>
   
   <div class="button-group">
-    <button id="searchTabsButton">Search Tabs</button>
     <button id="closeTabsButton" class="button-disabled" disabled>Close Matching Tabs (0)</button>
     <button id="moveTabsButton" class="button-disabled" disabled>Move to New Window (0)</button>
   </div>

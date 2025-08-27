@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchTabsButton = document.getElementById("searchTabsButton");
   const closeTabsButton = document.getElementById("closeTabsButton");
   const moveTabsButton = document.getElementById("moveTabsButton");
+  const autoPatternButton = document.getElementById("autoPatternButton");
   const messageDiv = document.getElementById("message");
   const tabListContainer = document.getElementById("tabListContainer");
   const tabCountDiv = document.getElementById("tabCount");
@@ -26,6 +27,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
   searchTabsButton.addEventListener("click", () => {
     searchAndDisplayTabs();
+  });
+
+  urlPatternInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault(); // Prevents default behavior (e.g., form submission)
+      searchAndDisplayTabs();
+    }
+  });
+
+  autoPatternButton.addEventListener("click", async () => {
+    try {
+      const tabs = await browser.tabs.query({
+        active: true,
+        currentWindow: true,
+      });
+      if (tabs.length > 0) {
+        const currentTab = tabs[0];
+        const url = new URL(currentTab.url);
+        const domainPattern = `*${url.hostname}/*`;
+        urlPatternInput.value = domainPattern;
+        searchAndDisplayTabs(); // Immediately search with the new pattern
+      }
+    } catch (error) {
+      console.error("Error getting current tab URL:", error);
+      messageDiv.textContent = `Error getting URL: ${error.message}`;
+      messageDiv.style.color = "red";
+    }
   });
 
   closeTabsButton.addEventListener("click", async () => {
