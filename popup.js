@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   urlPatternInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
-      event.preventDefault(); // Prevents default behavior (e.g., form submission)
+      event.preventDefault();
       searchAndDisplayTabs();
     }
   });
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const url = new URL(currentTab.url);
         const domainPattern = `*${url.hostname}/*`;
         urlPatternInput.value = domainPattern;
-        searchAndDisplayTabs(); // Immediately search with the new pattern
+        searchAndDisplayTabs();
       }
     } catch (error) {
       console.error("Error getting current tab URL:", error);
@@ -122,6 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
       messageDiv.textContent = "Please enter a URL pattern to search.";
       messageDiv.style.color = "#555";
       updateCloseButtonState(0);
+      browser.storage.local.remove("lastPattern");
       return;
     }
 
@@ -168,13 +169,25 @@ document.addEventListener("DOMContentLoaded", () => {
         for (let i = 0; i < Math.min(3, matchingTabsFullInfo.length); i++) {
           const tab = matchingTabsFullInfo[i];
           const listItem = document.createElement("li");
-          const favicon = tab.favIconUrl
-            ? `<img src="${tab.favIconUrl}" width="16" height="16" style="vertical-align: middle; margin-right: 5px;">`
-            : "";
-          listItem.innerHTML = `${favicon}${tab.title || tab.url}`;
+
+          if (tab.favIconUrl) {
+            const faviconImg = document.createElement("img");
+            faviconImg.src = tab.favIconUrl;
+            faviconImg.width = 16;
+            faviconImg.height = 16;
+            faviconImg.style.verticalAlign = "middle";
+            faviconImg.style.marginRight = "5px";
+            listItem.appendChild(faviconImg);
+          }
+
+          const textSpan = document.createElement("span");
+          textSpan.textContent = tab.title || tab.url;
+          listItem.appendChild(textSpan);
+
           listItem.title = tab.url;
           matchingTabsList.appendChild(listItem);
         }
+
         if (matchingTabsFullInfo.length > 3) {
           const moreItem = document.createElement("li");
           moreItem.textContent = `... and ${
@@ -183,6 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
           moreItem.style.fontStyle = "italic";
           matchingTabsList.appendChild(moreItem);
         }
+
         updateCloseButtonState(matchingTabsFullInfo.length);
       } else {
         messageDiv.textContent =
