@@ -1,6 +1,7 @@
 # Regex Tab Closer
 
-Instantly close multiple browser tabs using the power of regular expressions.
-Match by URL or title to clean up your workspace in seconds.
+Declutter your browser instantly. This tool uses **regular expressions** to
+close multiple tabs or move them to a new window, matching by URL to give you a
+clean, organized workspace in seconds.
 
 ![Screenshot](screenshot1.png)
