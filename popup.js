@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
   const urlPatternInput = document.getElementById("urlPattern");
   const searchTabsButton = document.getElementById("searchTabsButton");
+  const exportUrlsButton = document.getElementById("exportUrlsButton");
+  const exportDomainButton = document.getElementById("exportDomainButton");
   const closeTabsButton = document.getElementById("closeTabsButton");
   const moveTabsButton = document.getElementById("moveTabsButton");
   const autoPatternButton = document.getElementById("autoPatternButton");
@@ -56,6 +58,75 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  exportUrlsButton.addEventListener("click", () => {
+    // 1. Disable button and show pending message
+    exportUrlsButton.disabled = true;
+    exportUrlsButton.classList.add("button-disabled");
+    messageDiv.textContent = "Processing tabs and opening results page...";
+    messageDiv.style.color = "#555";
+
+    // 2. Send message and wait for asynchronous response
+    browser.runtime
+      .sendMessage({
+        action: "exportUrls",
+        groupType: "date",
+      })
+      .then((response) => {
+        // 3. Handle success or failure message
+        if (response && response.success) {
+          messageDiv.textContent = "Results page opened successfully!";
+          messageDiv.style.color = "green";
+        } else {
+          messageDiv.textContent = `Export failed: ${response?.error || "Unknown error."
+            }`;
+          messageDiv.style.color = "red";
+        }
+      })
+      .catch((error) => {
+        // Handle communication errors
+        console.error("Export message failed:", error);
+        messageDiv.textContent = `Communication error: ${error.message}`;
+        messageDiv.style.color = "red";
+      })
+      .finally(() => {
+        // 4. Re-enable button after operation completes (or fails)
+        exportUrlsButton.disabled = false;
+        exportUrlsButton.classList.remove("button-disabled");
+      });
+  });
+
+  exportDomainButton.addEventListener("click", () => {
+    exportDomainButton.disabled = true;
+    exportDomainButton.classList.add("button-disabled");
+    messageDiv.textContent = "Collecting data and grouping by domain...";
+    messageDiv.style.color = "#555";
+
+    browser.runtime
+      .sendMessage({
+        action: "exportUrls",
+        groupType: "domain",
+      })
+      .then((response) => {
+        if (response && response.success) {
+          messageDiv.textContent = "Results page opened successfully!";
+          messageDiv.style.color = "green";
+        } else {
+          messageDiv.textContent = `Export failed: ${response?.error || "Unknown error."
+            }`;
+          messageDiv.style.color = "red";
+        }
+      })
+      .catch((error) => {
+        console.error("Export message failed:", error);
+        messageDiv.textContent = `Communication error: ${error.message}`;
+        messageDiv.style.color = "red";
+      })
+      .finally(() => {
+        exportDomainButton.disabled = false;
+        exportDomainButton.classList.remove("button-disabled");
+      });
+  });
+
   closeTabsButton.addEventListener("click", async () => {
     if (currentMatchingTabIds.length === 0) {
       messageDiv.textContent = "No tabs to close.";
@@ -104,8 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
         action: "moveTabs",
         tabIds: currentMatchingTabIds,
       });
-      messageDiv.textContent =
-        `Moved ${currentMatchingTabIds.length} tabs to a new window.`;
+      messageDiv.textContent = `Moved ${currentMatchingTabIds.length} tabs to a new window.`;
       messageDiv.style.color = "green";
     } else {
       messageDiv.textContent = "Operation cancelled.";
@@ -161,8 +231,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (matchingTabsFullInfo.length > 0) {
         tabListContainer.style.display = "block";
-        tabCountDiv.textContent =
-          `Total matching tabs: ${matchingTabsFullInfo.length}`;
+        tabCountDiv.textContent = `Total matching tabs: ${matchingTabsFullInfo.length}`;
         messageDiv.textContent = "";
 
         // Display first 3 tabs
@@ -190,9 +259,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (matchingTabsFullInfo.length > 3) {
           const moreItem = document.createElement("li");
-          moreItem.textContent = `... and ${
-            matchingTabsFullInfo.length - 3
-          } more tabs`;
+          moreItem.textContent = `... and ${matchingTabsFullInfo.length - 3
+            } more tabs`;
           moreItem.style.fontStyle = "italic";
           matchingTabsList.appendChild(moreItem);
         }

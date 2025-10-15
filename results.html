@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Open Tab Organizer</title>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f4f4f4;
+      }
+      h1 {
+        color: #333;
+        border-bottom: 2px solid #ccc;
+        padding-bottom: 10px;
+      }
+      h2 {
+        color: #0056b3;
+        margin-top: 25px;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .h2-actions {
+        display: flex;
+        gap: 10px;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      li {
+        margin-bottom: 8px;
+        padding: 5px 0;
+        border-left: 3px solid #007bff;
+        padding-left: 10px;
+        background-color: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        display: flex;
+        align-items: center;
+      }
+      a {
+        text-decoration: none;
+        color: #333;
+        font-weight: bold;
+      }
+      a:hover {
+        color: #007bff;
+        text-decoration: underline;
+      }
+      .time {
+        font-family: monospace;
+        color: #666;
+        margin-right: 10px;
+        font-size: 0.9em;
+      }
+      .index {
+        color: #888;
+        font-size: 0.8em;
+        margin-left: auto;
+        padding-right: 10px;
+      }
+      .actions {
+        margin-left: 15px;
+      }
+      .actions .action-btn {
+        font-size: 0.9em;
+        color: #007bff;
+        margin-right: 10px;
+        font-weight: normal;
+        cursor: pointer;
+      }
+      .actions .close-btn {
+        color: #dc3545;
+      }
+      .actions .close-btn:hover {
+        color: #c82333;
+      }
+      .close-day-btn {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.9em;
+      }
+      .close-day-btn:hover {
+        background-color: #c82333;
+      }
+      .move-window-btn {
+        background-color: #17a2b8;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.9em;
+      }
+      .move-window-btn:hover {
+        background-color: #138496;
+      }
+      #resultsContainer {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>All Open Tabs Grouped by Last Accessed Date</h1>
+    <p id="loadingMessage">Loading tab data...</p>
+    <div id="resultsContainer"></div>
+    <script src="results.js"></script>
+  </body>
+</html>

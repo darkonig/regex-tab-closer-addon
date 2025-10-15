@@ -1,111 +1,111 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <style>
-    body {
-      font-family: sans-serif;
-      width: 400px;
-      padding: 10px;
-      background-color: #f5f5f5;
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-      color: #333;
-    }
-    .input-group {
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body {
+        font-family: sans-serif;
+        width: 400px;
+        padding: 10px;
+        background-color: #f5f5f5;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #333;
+      }
+      .input-group {
         display: flex;
         gap: 5px;
         margin-bottom: 10px;
         align-items: center;
-    }
-    .input-group input[type="text"] {
-      flex-grow: 1;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    .input-group button {
-      flex-shrink: 0;
-      background-color: #28a745; /* Green color for "Add" button */
-      color: white;
-      padding: 8px 12px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 14px;
-      transition: background-color 0.2s;
-    }
-    .input-group button:hover {
+      }
+      .input-group input[type="text"] {
+        flex-grow: 1;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      .input-group button {
+        flex-shrink: 0;
+        background-color: #28a745; /* Green color for "Add" button */
+        color: white;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.2s;
+      }
+      .input-group button:hover {
         background-color: #218838;
-    }
-    .button-group {
+      }
+      .button-group {
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
         margin-bottom: 10px;
-    }
-    button {
-      background-color: #007bff;
-      color: white;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 14px;
-      transition: background-color 0.2s;
-      flex-grow: 1;
-      box-sizing: border-box;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-    #closeTabsButton {
+      }
+      button {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.2s;
+        flex-grow: 1;
+        box-sizing: border-box;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      #closeTabsButton {
         background-color: #dc3545;
-    }
-    #closeTabsButton:hover {
+      }
+      #closeTabsButton:hover {
         background-color: #c82333;
-    }
-    #moveTabsButton {
+      }
+      #moveTabsButton {
         background-color: #17a2b8;
-    }
-    #moveTabsButton:hover {
+      }
+      #moveTabsButton:hover {
         background-color: #138496;
-    }
-    .button-disabled {
+      }
+      .button-disabled {
         background-color: #6c757d !important;
         cursor: not-allowed !important;
-    }
-    #message {
-      margin-top: 10px;
-      color: #555;
-      font-size: 0.9em;
-    }
-    .warning {
+      }
+      #message {
+        margin-top: 10px;
+        color: #555;
+        font-size: 0.9em;
+      }
+      .warning {
         color: orange;
         font-weight: bold;
-    }
-    .info {
+      }
+      .info {
         color: gray;
         font-style: italic;
         font-size: 0.8em;
         margin-top: 5px;
         margin-bottom: 15px;
-    }
-    #tabListContainer {
+      }
+      #tabListContainer {
         margin-top: 15px;
         padding-top: 10px;
         border-top: 1px solid #eee;
         display: none;
-    }
-    #tabCount {
+      }
+      #tabCount {
         font-weight: bold;
         margin-bottom: 5px;
         color: #333;
-    }
-    #matchingTabsList {
+      }
+      #matchingTabsList {
         list-style-type: none;
         padding: 0;
         max-height: 120px;
@@ -113,8 +113,8 @@
         border: 1px solid #e0e0e0;
         border-radius: 4px;
         background-color: #fff;
-    }
-    #matchingTabsList li {
+      }
+      #matchingTabsList li {
         padding: 8px 10px;
         border-bottom: 1px solid #eee;
         white-space: nowrap;
@@ -122,47 +122,141 @@
         text-overflow: ellipsis;
         font-size: 0.9em;
         color: #444;
-    }
-    #matchingTabsList li:last-child {
+      }
+      #matchingTabsList li:last-child {
         border-bottom: none;
-    }
-    #matchingTabsList li:hover {
+      }
+      #matchingTabsList li:hover {
         background-color: #f0f0f0;
-    }
-  </style>
-</head>
-<body>
-  <label for="urlPattern">URL Pattern to Close:</label>
-  <div class="input-group">
-    <input type="text" id="urlPattern" placeholder="e.g., *://*.example.com/*">
-    <button id="autoPatternButton" title="Auto-fill with current site pattern">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-          <path d="M5.526 1.488A2.5 2.5 0 0 1 7.152 1v1.666L8 3a.5.5 0 0 1 .5.5v2L13 11.5a.5.5 0 0 1-.5.5H11l-1-2h2L10 13a.5.5 0 0 1-.5.5H8.723L7 16V8h2.5a.5.5 0 0 1 .374.832L8.5 12.5H10L5.526 1.488zM4 14l-.5-1h1.5l.5 1H4zM6 14l-.5-1h1.5l.5 1H6z"/>
+      }
+      #export-group {
+        display: block;
+      }
+      #exportUrlsButton,
+      #exportDomainButton {
+        flex-grow: 1;
+      }
+      #exportUrlsButton {
+        background-color: #6f42c1;
+      }
+      #exportUrlsButton:hover {
+        background-color: #5d35a3;
+      }
+      #exportDomainButton {
+        background-color: #ffc107; /* Yellow/Amber for Group by Domain */
+        color: #333;
+      }
+      #exportDomainButton:hover {
+        background-color: #e0a800;
+      }
+    </style>
+  </head>
+  <body>
+    <label for="urlPattern">URL Pattern to Close:</label>
+    <div class="input-group">
+      <input
+        type="text"
+        id="urlPattern"
+        placeholder="e.g., *://*.example.com/*"
+      />
+      <button
+        id="autoPatternButton"
+        title="Auto-fill with current site pattern"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M5.526 1.488A2.5 2.5 0 0 1 7.152 1v1.666L8 3a.5.5 0 0 1 .5.5v2L13 11.5a.5.5 0 0 1-.5.5H11l-1-2h2L10 13a.5.5 0 0 1-.5.5H8.723L7 16V8h2.5a.5.5 0 0 1 .374.832L8.5 12.5H10L5.526 1.488zM4 14l-.5-1h1.5l.5 1H4zM6 14l-.5-1h1.5l.5 1H6z"
+          />
         </svg>
       </button>
       <button id="searchTabsButton" title="Search Tabs">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-      </svg>
-    </button>
-  </div>
-  <div class="info">
-      Use `*` as a wildcard. Pinned tabs are ignored by default.<br/>
-      <b>Tip</b>: Use `/*` at the end of your search to match multiple URL paths.
-  </div>
-  
-  <div class="button-group">
-    <button id="closeTabsButton" class="button-disabled" disabled>Close Matching Tabs (0)</button>
-    <button id="moveTabsButton" class="button-disabled" disabled>Move to New Window (0)</button>
-  </div>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="info">
+      Use `*` as a wildcard. Pinned tabs are ignored by default.<br />
+      <b>Tip</b>: Use `/*` at the end of your search to match multiple URL
+      paths.
+    </div>
 
-  <div id="tabListContainer">
-    <div id="tabCount"></div>
-    <ul id="matchingTabsList"></ul>
-  </div>
+    <div class="button-group">
+      <button id="closeTabsButton" class="button-disabled" disabled>
+        Close Matching Tabs (0)
+      </button>
+      <button id="moveTabsButton" class="button-disabled" disabled>
+        Move to New Window (0)
+      </button>
+    </div>
 
-  <div id="message"></div>
+    <div class="button-group" id="export-group">
+      <button
+        id="exportUrlsButton"
+        title="Open page with all tab URLs grouped by date"
+      >
+        Group by Date
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          viewBox="0 0 16 16"
+          style="margin-left: 5px; vertical-align: middle"
+        >
+          <path
+            d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"
+          />
+          <path
+            d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"
+          />
+        </svg>
+      </button>
+      <button
+        id="exportDomainButton"
+        title="Open page with all tab URLs grouped by domain"
+      >
+        Group by Domain
 
-  <script src="popup.js"></script>
-</body>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          viewBox="0 0 16 16"
+          style="margin-left: 5px; vertical-align: middle"
+        >
+          <path
+            d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"
+          />
+          <path
+            d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <div id="tabListContainer">
+      <div id="tabCount"></div>
+      <ul id="matchingTabsList"></ul>
+    </div>
+
+    <div id="message"></div>
+
+    <script src="popup.js"></script>
+  </body>
 </html>
