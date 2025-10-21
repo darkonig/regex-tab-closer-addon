@@ -1,3 +1,7 @@
+if (typeof chrome !== "undefined") {
+  globalThis.browser = chrome;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const urlPatternInput = document.getElementById("urlPattern");
   const searchTabsButton = document.getElementById("searchTabsButton");
@@ -77,8 +81,9 @@ document.addEventListener("DOMContentLoaded", () => {
           messageDiv.textContent = "Results page opened successfully!";
           messageDiv.style.color = "green";
         } else {
-          messageDiv.textContent = `Export failed: ${response?.error || "Unknown error."
-            }`;
+          messageDiv.textContent = `Export failed: ${
+            response?.error || "Unknown error."
+          }`;
           messageDiv.style.color = "red";
         }
       })
@@ -111,8 +116,9 @@ document.addEventListener("DOMContentLoaded", () => {
           messageDiv.textContent = "Results page opened successfully!";
           messageDiv.style.color = "green";
         } else {
-          messageDiv.textContent = `Export failed: ${response?.error || "Unknown error."
-            }`;
+          messageDiv.textContent = `Export failed: ${
+            response?.error || "Unknown error."
+          }`;
           messageDiv.style.color = "red";
         }
       })
@@ -259,8 +265,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (matchingTabsFullInfo.length > 3) {
           const moreItem = document.createElement("li");
-          moreItem.textContent = `... and ${matchingTabsFullInfo.length - 3
-            } more tabs`;
+          moreItem.textContent = `... and ${
+            matchingTabsFullInfo.length - 3
+          } more tabs`;
           moreItem.style.fontStyle = "italic";
           matchingTabsList.appendChild(moreItem);
         }

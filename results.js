@@ -1,3 +1,7 @@
+if (typeof chrome !== "undefined") {
+  globalThis.browser = chrome;
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
   const container = document.getElementById("resultsContainer");
   const loadingMessage = document.getElementById("loadingMessage");
@@ -76,9 +80,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const title = tab.title
           ? tab.title
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
+              .replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;")
           : tab.url;
         const url = tab.url;
 

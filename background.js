@@ -1,4 +1,8 @@
 // Listen for messages from the popup script
+if (typeof browser === "undefined") {
+  globalThis.browser = chrome;
+}
+
 browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
   if (message.action === "closeTabs") {
     browser.tabs.remove(message.tabIds).catch((error) => {
